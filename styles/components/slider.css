@@ -1,6 +1,6 @@
 .slider {
   --slide-grow: 0;
-  --slide-count: 2;
+  --slide-count: 3;
 
   max-width: 100%;
 }
@@ -51,8 +51,12 @@
   flex-direction: row;
   gap: 10px;
 }
-.slider__point {
+
+.slider__point svg {
+  color: var(--unactive-point-green);
+  transition: all 0.2s ease;
 }
-.slider__point_svg {
-  color: green;
+
+.slider__point_active svg {
+  color: var(--active-point-green);
 }
