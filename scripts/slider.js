@@ -6,18 +6,15 @@ const $prevButton = document.getElementById("prev");
 const $nextButton = document.getElementById("next");
 const $indicatorList = document.getElementById("indicators-list");
 
-const slidesCount = 3;
-const slidesToScroll = 2;
-const arrayOfIndexSlides = [];
+const slidesCount = 2;
+const slidesToScroll = 1;
+let clickedIndicatorPoint = Number(null);
 
 const handleMoveToPrev = () => {
   $sliderList.scrollTo({
     left: getSliderOffset() - getSliderItemWidth() * slidesToScroll,
     behavior: "smooth",
   });
-  // setTimeout(() => {
-  //   getActiveIndicators();
-  // }, 650);
 };
 
 const handleMoveToNext = () => {
@@ -25,9 +22,6 @@ const handleMoveToNext = () => {
     left: getSliderOffset() + getSliderItemWidth() * slidesToScroll,
     behavior: "smooth",
   });
-  // setTimeout(() => {
-  //   getActiveIndicators();
-  // }, 650);
 };
 
 const getSliderContainerDimensions = () => {
@@ -62,81 +56,49 @@ const appendIndicatorsList = () => {
   );
 };
 
+// смена названия
 const handleScroll = (event) => {
   const index = Math.floor(
     event.currentTarget.scrollLeft / getSliderItemWidth(),
   );
   const indicatorIndex = index / slidesToScroll;
-  // console.log(indicatorIndex, index);
   Array.from($indicatorList.children).forEach(
     ($indicatorPoint, indicatorPointIndex) => {
       $indicatorPoint.classList.toggle(
         `slider__point_active`,
         indicatorPointIndex === indicatorIndex,
       );
-      console.log(indicatorPointIndex, index);
     },
   );
 };
+
+const onIndicatorClickScrolling = () => {
+  console.log(clickedIndicatorPoint * slidesToScroll * getSliderItemWidth());
+
+  $sliderList.scrollTo({
+    left: clickedIndicatorPoint * slidesToScroll * getSliderItemWidth(),
+    behavior: "smooth",
+  });
+};
+
+const start = () => {
+  createIndicators();
+};
+
+$indicatorList.addEventListener("click", (event) => {
+  event.preventDefault();
+  const targetPoint = event.target.closest(".slider__point");
+  clickedIndicatorPoint = Array.from($indicatorList.children).findIndex(
+    ($point) => {
+      return $point === targetPoint;
+    },
+  );
+  onIndicatorClickScrolling();
+});
+
 $sliderList.addEventListener("scroll", handleScroll);
-
-// const getActiveIndicators = () => {
-//   console.log("offset= " + getSliderOffset());
-
-//   if (getSliderOffset() !== 0) {
-//     console.log("not zero");
-//     const lastSlide = Math.round(
-//       getSliderOffset() / getSliderItemWidth() + slidesCount,
-//     );
-//     console.log("last slide= " + lastSlide);
-//     const arr = [];
-//     for (
-//       let i = Math.round(getSliderOffset() / getSliderItemWidth());
-//       i < lastSlide;
-//       i++
-//     ) {
-//       arr.push(Math.round(i));
-//     }
-//     console.log("slides= " + arr);
-//     return arr;
-//   } else {
-//     console.log("zero");
-//     const arr = [];
-//     for (let i = 0; i < slidesCount; i++) {
-//       arr.push(Math.round(i));
-//     }
-//     console.log("slides= " + arr);
-//     return arr;
-//   }
-// };
-
-// const updateIndicatorsList = () => {
-//   for (let i = 0; getActiveIndicators().length; i++) {
-//     $indicatorList.children[getActiveIndicators[i]].className.
-//   }
-// };
-
-// получение индекса слайда, что вошел в область родительского контейнера
-// const interObserver = new IntersectionObserver(
-//   (entries) => {
-//     entries.forEach((entry) => {
-//       if (entry.isIntersecting) {
-//         const index = Array.from($sliderList.children).indexOf(entry.target);
-//         // console.log(index + 1);
-//         arrayOfIndexSlides.push(index + 1);
-//         // console.log(arrayOfIndexSlides);
-//       }
-//     });
-//   },
-//   { root: $sliderList, threshold: 0.1, rootMargin: "0px -350px 0px -350px" },
-// );
-
-// document.querySelectorAll(".slider__item").forEach((slide) => {
-//   interObserver.observe(slide);
-// });
 
 $prevButton.addEventListener("click", handleMoveToPrev);
 $nextButton.addEventListener("click", handleMoveToNext);
 
-document.addEventListener("DOMContentLoaded", createIndicators);
-// document.addEventListener("DOMContentLoaded", getActiveIndicators);
+document.addEventListener("DOMContentLoaded", start);
