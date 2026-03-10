@@ -1,14 +1,13 @@
 .slider {
   --slide-grow: 0;
-  --slide-count: 2;
-
+  --slide-count: attr(data-slides-to-show number);
   max-width: 100%;
 }
 .slider__body {
 }
 .slider__container {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 .slider__list {
   display: flex;
@@ -22,34 +21,73 @@
   scroll-snap-align: start;
   flex: var(--slide-grow) 0 calc(100% / var(--slide-count));
 }
-.slider__actions {
-}
+
 .slider__prev {
   background-color: blue;
   width: 20px;
   height: 20px;
   position: absolute;
+}
+[data-controll-button-align="inside"] .slider__prev {
   left: 1%;
   top: 50%;
   transform: translate(-1%, -50%);
+}
+[data-controll-button-align="outside"] .slider__prev {
+  left: -3%;
+  top: 50%;
+  transform: translate(3%, -50%);
+}
+[data-controll-button-align="none"] .slider__prev {
+  display: none;
 }
 .slider__next {
   background-color: blue;
   width: 20px;
   height: 20px;
   position: absolute;
+}
+[data-controll-button-align="inside"] .slider__next {
   right: 1%;
   top: 50%;
   transform: translate(-1%, -50%);
 }
+[data-controll-button-align="outside"] .slider__next {
+  right: -3%;
+  top: 50%;
+  transform: translate(3%, -50%);
+}
+[data-controll-button-align="none"] .slider__next {
+  display: none;
+}
 .slider__indicator {
   position: absolute;
-  bottom: 5%;
-  left: 50%;
-  transform: translate(-50%, -5%);
   display: flex;
   flex-direction: row;
   gap: 10px;
+}
+[data-indicator-align="bottom inside"] {
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%, -5%);
+}
+[data-indicator-align="bottom outside"] {
+  bottom: -12%;
+  left: 50%;
+  transform: translate(-50%, 12%);
+}
+[data-indicator-align="top inside"] {
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -5%);
+}
+[data-indicator-align="top outside"] {
+  top: -12%;
+  left: 50%;
+  transform: translate(-50%, 12%);
+}
+[data-indicator-align="none"] {
+  display: none;
 }
 
 .slider__point svg {
@@ -59,4 +97,7 @@
 
 .slider__point_active svg {
   color: var(--active-point-green);
+}
+.element-hidden {
+  display: none;
 }

@@ -10,10 +10,22 @@
   <body>
     <section class="wrapper">
       <div class="container">
-        <div class="slider" id="slider">
+        <div
+          class="slider"
+          id="slider"
+          data-slides-to-show="4"
+          data-slides-to-scroll="1"
+          data-start-slide="1"
+          data-autoscroll-delay="3"
+          data-animation-scroll="smooth"
+        >
           <div class="slider__body">
             <div class="slider__container" id="slider-container">
-              <ul class="slider__indicator indicator" id="indicators-list"></ul>
+              <ul
+                class="slider__indicator indicator"
+                id="indicators-list"
+                data-indicator-align="none"
+              ></ul>
               <ul class="slider__list" id="slider-list">
                 <li class="slider__item">
                   <div class="item"></div>
@@ -37,9 +49,12 @@
                   <div class="item"></div>
                 </li>
               </ul>
-              <div class="slider__actions">
-                <div class="slider__prev" id="prev"></div>
-                <div class="slider__next" id="next"></div>
+              <div class="slider__actions" data-controll-button-align="outside">
+                <div
+                  class="slider__action slider__prev element-hidden"
+                  id="prev"
+                ></div>
+                <div class="slider__action slider__next" id="next"></div>
               </div>
             </div>
           </div>

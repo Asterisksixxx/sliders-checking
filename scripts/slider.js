@@ -1,3 +1,8 @@
+// TODO: castomizing / IN PROCESS
+// TODO: refactoring to class
+// Спросить по поводу стандартизации скроллинга, перенести это в отдельную функцию с принимаемыми параметрами
+// scrolling standart, naming function,
+
 const $slider = document.getElementById("slider");
 const $sliderContainer = document.getElementById("slider-container");
 const $sliderList = document.getElementById("slider-list");
@@ -6,49 +11,58 @@ const $prevButton = document.getElementById("prev");
 const $nextButton = document.getElementById("next");
 const $indicatorList = document.getElementById("indicators-list");
 
-const slidesCount = 2;
-const slidesToScroll = 1;
+const slidesToShow = $slider.getAttribute(`data-slides-to-show`);
+const slidesToScroll = $slider.getAttribute(`data-slides-to-scroll`);
+const startSlide = $slider.getAttribute(`data-start-slide`);
+const autoScrollDelay = $slider.getAttribute(`data-autoscroll-delay`);
+const scrollAnimationType = $slider.getAttribute(`data-animation-scroll`);
 let clickedIndicatorPoint = Number(null);
 
-const handleMoveToPrev = () => {
+const handleMoveToPrev = (count = 1) => {
   $sliderList.scrollTo({
-    left: getSliderOffset() - getSliderItemWidth() * slidesToScroll,
-    behavior: "smooth",
+    left: (getSliderOffset() - getSliderItemWidth() * slidesToScroll) * count,
+    behavior: scrollAnimationType,
   });
 };
 
 const handleMoveToNext = () => {
   $sliderList.scrollTo({
     left: getSliderOffset() + getSliderItemWidth() * slidesToScroll,
-    behavior: "smooth",
+    behavior: scrollAnimationType,
   });
 };
 
+// const scroll = (index) => {
+//   $sliderList.scrollTo();
+// };
 const getSliderContainerDimensions = () => {
   return $sliderContainer.getBoundingClientRect();
 };
 const getSliderItemWidth = () => {
   const { width } = getSliderContainerDimensions();
 
-  return width / slidesCount;
+  return width / slidesToShow;
 };
 
 const getSliderOffset = () => {
   return $sliderList.scrollLeft;
 };
 
+const setStartSlide = () => {
+  $sliderList.scrollTo({ left: (startSlide - 1) * getSliderItemWidth() });
+};
+
 const createIndicators = () => {
-  const length = Math.ceil(
-    $sliderItems.length / slidesToScroll - (slidesCount - slidesToScroll),
-  );
+  const length =
+    Math.ceil(($sliderItems.length - slidesToShow) / slidesToScroll) + 1;
   const items = Array(length).fill(null);
   items.forEach(appendIndicatorsList);
 };
 
-const appendIndicatorsList = () => {
+const appendIndicatorsList = (item, index) => {
   $indicatorList.insertAdjacentHTML(
     "beforeend",
-    `<li class="slider__point">
+    `<li class="slider__point ${index === 0 ? `slider__point_active` : ``}">
                   <svg class="slider__point_svg" width="14" height="14">
                     <use href="assets/sprite.svg#slider__point_svg"></use>
                   </svg>
@@ -56,12 +70,12 @@ const appendIndicatorsList = () => {
   );
 };
 
-// смена названия
 const handleScroll = (event) => {
-  const index = Math.floor(
+  const index = Math.round(
     event.currentTarget.scrollLeft / getSliderItemWidth(),
   );
-  const indicatorIndex = index / slidesToScroll;
+  const indicatorIndex = Math.ceil(index / slidesToScroll);
+
   Array.from($indicatorList.children).forEach(
     ($indicatorPoint, indicatorPointIndex) => {
       $indicatorPoint.classList.toggle(
@@ -70,19 +84,40 @@ const handleScroll = (event) => {
       );
     },
   );
+
+  $prevButton.classList.toggle("element-hidden", index === 0);
+  $nextButton.classList.toggle(
+    "element-hidden",
+    index === $sliderItems.length - slidesToShow,
+  );
 };
 
-const onIndicatorClickScrolling = () => {
-  console.log(clickedIndicatorPoint * slidesToScroll * getSliderItemWidth());
-
+const handleIndicatorScroll = () => {
   $sliderList.scrollTo({
     left: clickedIndicatorPoint * slidesToScroll * getSliderItemWidth(),
-    behavior: "smooth",
+    behavior: scrollAnimationType,
   });
+};
+
+const autoScrolling = () => {
+  setInterval(() => {
+    getSliderOffset() >=
+    Math.round(($sliderItems.length - slidesToShow) * getSliderItemWidth())
+      ? $sliderList.scrollTo({
+          left: 0,
+          behavior: scrollAnimationType,
+        })
+      : $sliderList.scrollTo({
+          left: $sliderList.scrollLeft + getSliderItemWidth() * slidesToScroll,
+          behavior: scrollAnimationType,
+        });
+  }, autoScrollDelay * 1000);
 };
 
 const start = () => {
   createIndicators();
+  setStartSlide();
+  autoScrolling();
 };
 
 $indicatorList.addEventListener("click", (event) => {
@@ -93,7 +128,7 @@ $indicatorList.addEventListener("click", (event) => {
       return $point === targetPoint;
     },
   );
-  onIndicatorClickScrolling();
+  handleIndicatorScroll();
 });
 
 $sliderList.addEventListener("scroll", handleScroll);
