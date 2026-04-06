@@ -1,10 +1,9 @@
 .slider {
   --slide-grow: 0;
-  --slide-count: attr(data-slides-to-show number);
+  --slide-count: attr(data-slider-slides-to-show number);
   max-width: 100%;
 }
-.slider__body {
-}
+
 .slider__container {
   position: relative;
   overflow: visible;
@@ -28,17 +27,17 @@
   height: 20px;
   position: absolute;
 }
-[data-controll-button-align="inside"] .slider__prev {
+[data-slider-controll-button-align="inside"] .slider__prev {
   left: 1%;
   top: 50%;
   transform: translate(-1%, -50%);
 }
-[data-controll-button-align="outside"] .slider__prev {
+[data-slider-controll-button-align="outside"] .slider__prev {
   left: -3%;
   top: 50%;
   transform: translate(3%, -50%);
 }
-[data-controll-button-align="none"] .slider__prev {
+[data-slider-controll-button-align="none"] .slider__prev {
   display: none;
 }
 .slider__next {
@@ -47,17 +46,17 @@
   height: 20px;
   position: absolute;
 }
-[data-controll-button-align="inside"] .slider__next {
+[data-slider-controll-button-align="inside"] .slider__next {
   right: 1%;
   top: 50%;
   transform: translate(-1%, -50%);
 }
-[data-controll-button-align="outside"] .slider__next {
+[data-slider-controll-button-align="outside"] .slider__next {
   right: -3%;
   top: 50%;
   transform: translate(3%, -50%);
 }
-[data-controll-button-align="none"] .slider__next {
+[data-slider-controll-button-align="none"] .slider__next {
   display: none;
 }
 .slider__indicator {
@@ -66,27 +65,27 @@
   flex-direction: row;
   gap: 10px;
 }
-[data-indicator-align="bottom inside"] {
+[data-slider-indicator-align="bottom inside"] {
   bottom: 5%;
   left: 50%;
   transform: translate(-50%, -5%);
 }
-[data-indicator-align="bottom outside"] {
+[data-slider-indicator-align="bottom outside"] {
   bottom: -12%;
   left: 50%;
   transform: translate(-50%, 12%);
 }
-[data-indicator-align="top inside"] {
+[data-slider-indicator-align="top inside"] {
   top: 5%;
   left: 50%;
   transform: translate(-50%, -5%);
 }
-[data-indicator-align="top outside"] {
+[data-slider-indicator-align="top outside"] {
   top: -12%;
   left: 50%;
   transform: translate(-50%, 12%);
 }
-[data-indicator-align="none"] {
+[data-slider-indicator-align="none"] {
   display: none;
 }
 

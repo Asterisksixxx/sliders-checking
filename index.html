@@ -13,18 +13,18 @@
         <div
           class="slider"
           id="slider"
-          data-slides-to-show="4"
-          data-slides-to-scroll="1"
-          data-start-slide="1"
-          data-autoscroll-delay="3"
-          data-animation-scroll="smooth"
+          data-slider-slides-to-show="2"
+          data-slider-slides-to-scroll="1"
+          data-slider-start-slide="1"
+          data-slider-autoscroll-delay="1"
+          data-slider-animation-scroll="smooth"
         >
           <div class="slider__body">
             <div class="slider__container" id="slider-container">
               <ul
                 class="slider__indicator indicator"
                 id="indicators-list"
-                data-indicator-align="none"
+                data-slider-indicator-align="bottom outside"
               ></ul>
               <ul class="slider__list" id="slider-list">
                 <li class="slider__item">
@@ -49,7 +49,10 @@
                   <div class="item"></div>
                 </li>
               </ul>
-              <div class="slider__actions" data-controll-button-align="outside">
+              <div
+                class="slider__actions"
+                data-slider-controll-button-align="outside"
+              >
                 <div
                   class="slider__action slider__prev element-hidden"
                   id="prev"
